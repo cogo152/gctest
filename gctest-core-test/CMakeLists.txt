@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.22.1)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core-test)
-set(GCTEST_PROJECT_VERSION 1.0.0)
+set(GCTEST_PROJECT_VERSION 1.0.1)
 set(GCTEST_PROJECT_DESCRIPTION "test of the gctest::core")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 
@@ -12,7 +12,7 @@ cmake_minimum_required (VERSION ${GCTEST_CMAKE_VERSION})
 
 project (${GCTEST_PROJECT_NAME} VERSION ${GCTEST_PROJECT_VERSION} DESCRIPTION ${GCTEST_PROJECT_DESCRIPTION})
 
-find_package(gctest-core CONFIG 1.0.0 REQUIRED)
+find_package(gctest-core CONFIG 1.0.1 REQUIRED)
 
 enable_language(CXX)
 
