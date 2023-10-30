@@ -1,0 +1,1 @@
+1. Error management : print error type not code, print core dump
