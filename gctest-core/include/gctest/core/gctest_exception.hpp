@@ -11,11 +11,11 @@ namespace gctest
         class TestException final : public std::exception
         {
         private:
-            std::string _message;
+            std::string __message;
 
         public:
             TestException(std::string &&message);
-            
+
             virtual const char *what() const noexcept override;
         };
     }

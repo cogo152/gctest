@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.22.1)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core)
-set(GCTEST_PROJECT_VERSION 1.0.1)
+set(GCTEST_PROJECT_VERSION 1.0.2)
 set(GCTEST_PROJECT_DESCRIPTION "cpp test framework for the asm, c and cpp languages")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 
@@ -33,18 +33,20 @@ target_include_directories(${GCTEST_PROJECT_NAME}
 
 target_sources(${GCTEST_PROJECT_NAME}
     INTERFACE
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_type.cpp>
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_exception.cpp>
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_executor.cpp>
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_main.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_registery.cpp>
 
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_type.cpp>
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_exception.cpp>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_executor.cpp>
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_main.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_registery.cpp>
 )
 
 target_compile_features(${GCTEST_PROJECT_NAME}
     INTERFACE
-        c_std_23 
+        #c_std_23 
         cxx_std_23
 )
 
@@ -56,6 +58,7 @@ target_compile_options(${GCTEST_PROJECT_NAME}
         -O0
         -g
         -fPIC
+        #"-x" "assembler-with-cpp"
 )
 
 set_target_properties(${GCTEST_PROJECT_NAME}
