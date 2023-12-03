@@ -10,25 +10,20 @@ namespace gctest
 {
     namespace type
     {
-        TestCase::TestCase() : __testCaseName(),
-                               __testCaseDescription(),
-                               __sleepBeforeTestInNanoSecond(0),
-                               __sleepAfterTestInNanoSecond(0),
-                               __testCaseResult("not completed"),
-                               __isTestCaseFailed(false),
-                               __testCaseFailedDescription(),
-                               __testReport()
+        TestCase::TestCase(std::string testCaseName) : __testCaseName(testCaseName),
+                                                       __testCaseDescription(),
+                                                       __sleepBeforeTestInNanoSecond(0),
+                                                       __sleepAfterTestInNanoSecond(0),
+                                                       __testCaseResult("not completed"),
+                                                       __isTestCaseFailed(false),
+                                                       __testCaseFailedDescription(),
+                                                       __testReport()
 
         {
         }
 
         TestCase::~TestCase()
         {
-        }
-
-        std::string TestCase::_set_test_case_name()
-        {
-            return "not defined";
         }
 
         std::string TestCase::_set_test_case_description()
@@ -56,7 +51,6 @@ namespace gctest
 
         void TestCase::setup_test()
         {
-            __testCaseName = _set_test_case_name();
             __testCaseDescription = _set_test_case_description();
             __sleepBeforeTestInNanoSecond = _set_sleep_time_before_test_in_nanosecond();
             __sleepAfterTestInNanoSecond = _set_sleep_time_after_test_in_nanosecond();

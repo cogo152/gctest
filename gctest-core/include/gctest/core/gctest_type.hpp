@@ -24,7 +24,6 @@ namespace gctest
             std::string __testReport;
 
         protected:
-            virtual std::string _set_test_case_name();
             virtual std::string _set_test_case_description();
             virtual std::uint64_t _set_sleep_time_before_test_in_nanosecond();
             virtual std::uint64_t _set_sleep_time_after_test_in_nanosecond();
@@ -33,7 +32,7 @@ namespace gctest
             virtual void _after_test();
 
         public:
-            TestCase();
+            TestCase(std::string testCaseName);
             virtual ~TestCase();
 
             void setup_test();

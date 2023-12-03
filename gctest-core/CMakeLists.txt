@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.22.1)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core)
-set(GCTEST_PROJECT_VERSION 1.0.2)
+set(GCTEST_PROJECT_VERSION 1.0.3)
 set(GCTEST_PROJECT_DESCRIPTION "cpp test framework for the asm, c and cpp languages")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 

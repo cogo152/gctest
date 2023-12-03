@@ -12,8 +12,6 @@ static void __attribute__((destructor(101))) fini_registery()
     delete gctest::executor::testCaseExecutor;
 }
 
-extern int totalFailedTest;
-
 #ifdef __NOT_MAIN__
 int not_main(void)
 #else

@@ -23,7 +23,8 @@ namespace gctest
 
         const std::size_t TestCaseExecutor::__capacityVector = 50;
 
-        TestCaseExecutor::TestCaseExecutor() : __isMultithreaded(false),
+        TestCaseExecutor::TestCaseExecutor() : __suitName(),
+                                               __isMultithreaded(false),
                                                __testCases(),
                                                __totalSuccessfulTests(0),
                                                __executors()
@@ -33,6 +34,11 @@ namespace gctest
 
         TestCaseExecutor::~TestCaseExecutor()
         {
+        }
+
+        void TestCaseExecutor::set_suit_name(std::string suitName)
+        {
+            __suitName = suitName;
         }
 
         void TestCaseExecutor::set_multithreaded(std::uint32_t isMultiThreaded)
@@ -276,6 +282,7 @@ namespace gctest
                 testCase->print_test_case();
             }
 
+            std::cout << "SUIT NAME : " << __suitName << std::endl;
             std::cout << "TOTAL THREADS : " << __executors.size() << std::endl;
             std::cout << "TOTAL TEST : " << __testCases.size() << std::endl;
             std::cout << "TOTAL FAILED TEST : " << __totalFailedTests << std::endl;

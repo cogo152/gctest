@@ -16,4 +16,4 @@ cmake   --build build                               \
         --target all test install package           \
         -j 14 --                                    \
 
-dpkg-deb -R build/package/gctest-core_1.0.2_all.deb build/package-extract
+dpkg-deb -R build/package/gctest-core_1.0.3_all.deb build/package-extract

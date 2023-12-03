@@ -28,6 +28,8 @@ namespace gctest
             static std::map<std::thread::id, std::jmp_buf *> __jumpBuffers;
             static void __signal_handler(int signalNumber);
 
+            std::string __suitName;
+
             bool __isMultithreaded;
 
             const static std::size_t __capacityVector;
@@ -42,6 +44,7 @@ namespace gctest
             TestCaseExecutor();
             ~TestCaseExecutor();
 
+            void set_suit_name(std::string suitName);
             void set_multithreaded(std::uint32_t isMultiThreaded);
 
             void add_test_case(gctest::type::TestCase *testCase);
