@@ -23,7 +23,7 @@ target_link_libraries(${test_name}
 
 target_compile_definitions(${test_name}
     PRIVATE
-        __NOT_MAIN__
+        __OWN_TEST__
 )
 
 add_test(NAME ${test_name} COMMAND ${test_name})

@@ -1,8 +1,6 @@
-#include <gctest/core/gctest.hpp>
+#include <gctest/core/test.hpp>
 
 #include <string>
-
-using namespace gctest::assertion;
 
 /*
  * This is a class for test purpose.
@@ -57,7 +55,7 @@ GCTEST_CASE(test_case_full_implementation)
      * The second argument is test case execution priority.
      * THIS MACRO IS MANDATORY in the GCTEST_CASE macro.
      */
-    gctest_case_config(test_case_full_implementation, 0);
+    gctest_case_config_priority(test_case_full_implementation, 0);
 
     /*
      * This macro sets test case description and only valid in a GCTEST_CASE macro.
@@ -172,8 +170,8 @@ GCTEST_CASE(test_case_full_implementation)
 
 GCTEST_CASE(fail_on_error)
 {
-    gctest_case_config(fail_on_error, 1);
-    gctest_case_description("test case fails if an error occures");
+    // comes after prior test cases
+    gctest_case_config_default(fail_on_error);
 
     gctest_case_now
     {
@@ -184,8 +182,7 @@ GCTEST_CASE(fail_on_error)
 
 GCTEST_CASE(fail_on_std_exception)
 {
-    gctest_case_config(fail_on_std_exception, 2);
-    gctest_case_description("test case fails if a standard exception occures");
+    gctest_case_config_priority(fail_on_std_exception, 2);
 
     gctest_case_now
     {
@@ -195,8 +192,7 @@ GCTEST_CASE(fail_on_std_exception)
 
 GCTEST_CASE(fail_on_generic_exception)
 {
-    gctest_case_config(fail_on_generic_exception, 3);
-    gctest_case_description("test case fails if a generic exception occures");
+    gctest_case_config_priority(fail_on_generic_exception, 3);
 
     gctest_case_now
     {
@@ -206,8 +202,7 @@ GCTEST_CASE(fail_on_generic_exception)
 
 GCTEST_CASE(fail_on_assertion_true)
 {
-    gctest_case_config(fail_on_assertion_true, 4);
-    gctest_case_description("test case fails if assertion is false");
+    gctest_case_config_priority(fail_on_assertion_true, 4);
 
     gctest_case_now
     {
@@ -217,8 +212,7 @@ GCTEST_CASE(fail_on_assertion_true)
 
 GCTEST_CASE(fail_on_assertion_false)
 {
-    gctest_case_config(fail_on_assertion_false, 5);
-    gctest_case_description("test case fails if assertion is true");
+    gctest_case_config_priority(fail_on_assertion_false, 5);
 
     gctest_case_now
     {
@@ -228,8 +222,7 @@ GCTEST_CASE(fail_on_assertion_false)
 
 GCTEST_CASE(fail_on_assertion_equal)
 {
-    gctest_case_config(fail_on_assertion_equal, 6);
-    gctest_case_description("test case fails if a assertion is not equal");
+    gctest_case_config_priority(fail_on_assertion_equal, 6);
 
     gctest_case_now
     {
@@ -239,8 +232,7 @@ GCTEST_CASE(fail_on_assertion_equal)
 
 GCTEST_CASE(fail_on_assertion_not_equal)
 {
-    gctest_case_config(fail_on_assertion_not_equal, 7);
-    gctest_case_description("test case fails if assertion is equal");
+    gctest_case_config_priority(fail_on_assertion_not_equal, 7);
 
     gctest_case_now
     {
@@ -250,8 +242,7 @@ GCTEST_CASE(fail_on_assertion_not_equal)
 
 GCTEST_CASE(fail_on_assertion_greater)
 {
-    gctest_case_config(fail_on_assertion_greater, 8);
-    gctest_case_description("test case fails if assertion is equal or lesser");
+    gctest_case_config_priority(fail_on_assertion_greater, 8);
 
     gctest_case_now
     {
@@ -261,8 +252,7 @@ GCTEST_CASE(fail_on_assertion_greater)
 
 GCTEST_CASE(fail_on_assertion_greater_or_equal)
 {
-    gctest_case_config(fail_on_assertion_greater_or_equal, 9);
-    gctest_case_description("test case fails if assertion is lesser");
+    gctest_case_config_priority(fail_on_assertion_greater_or_equal, 9);
 
     gctest_case_now
     {
@@ -272,8 +262,7 @@ GCTEST_CASE(fail_on_assertion_greater_or_equal)
 
 GCTEST_CASE(fail_on_assertion_lesser)
 {
-    gctest_case_config(fail_on_assertion_lesser, 10);
-    gctest_case_description("test case fails if assertion is equal or greater");
+    gctest_case_config_priority(fail_on_assertion_lesser, 10);
 
     gctest_case_now
     {
@@ -283,8 +272,7 @@ GCTEST_CASE(fail_on_assertion_lesser)
 
 GCTEST_CASE(fail_on_assertion_lesser_or_equal)
 {
-    gctest_case_config(fail_on_assertion_lesser_or_equal, 11);
-    gctest_case_description("test case fails if assertion is greater");
+    gctest_case_config_priority(fail_on_assertion_lesser_or_equal, 11);
 
     gctest_case_now
     {
@@ -294,8 +282,7 @@ GCTEST_CASE(fail_on_assertion_lesser_or_equal)
 
 GCTEST_CASE(fail_on_assertion_nonmember_throws)
 {
-    gctest_case_config(fail_on_assertion_nonmember_throws, 12);
-    gctest_case_description("test case fails if assertion does not throw from static class or non-class function");
+    gctest_case_config_priority(fail_on_assertion_nonmember_throws, 12);
 
     gctest_case_now
     {
@@ -305,8 +292,7 @@ GCTEST_CASE(fail_on_assertion_nonmember_throws)
 
 GCTEST_CASE(fail_on_assertion_nonmember_not_throws)
 {
-    gctest_case_config(fail_on_assertion_nonmember_not_throws, 13);
-    gctest_case_description("test case fails if assertion throws from static class or non-class function");
+    gctest_case_config_priority(fail_on_assertion_nonmember_not_throws, 13);
 
     gctest_case_now
     {
@@ -316,8 +302,7 @@ GCTEST_CASE(fail_on_assertion_nonmember_not_throws)
 
 GCTEST_CASE(fail_on_assertion_member_throws)
 {
-    gctest_case_config(fail_on_assertion_member_throws, 14);
-    gctest_case_description("test case fails if assertion does not throw from instance method");
+    gctest_case_config_priority(fail_on_assertion_member_throws, 14);
 
     gctest_case_now
     {
@@ -327,8 +312,7 @@ GCTEST_CASE(fail_on_assertion_member_throws)
 
 GCTEST_CASE(fail_on_assertion_member_not_throws)
 {
-    gctest_case_config(fail_on_assertion_member_not_throws, 15);
-    gctest_case_description("test case fails if assertion throws from instance method");
+    gctest_case_config_priority(fail_on_assertion_member_not_throws, 15);
 
     gctest_case_now
     {

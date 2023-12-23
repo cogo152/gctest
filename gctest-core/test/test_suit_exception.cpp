@@ -1,44 +1,48 @@
-#include <gctest/core/gctest.hpp>
-#include <gctest/core/gctest_exception.hpp>
+#include <gctest/core/test.hpp>
+#include <gctest/core/exception.hpp>
 
+#include <atomic>
 #include <exception>
 
-extern int unsuccessfulTestCase;
+extern std::atomic_uint32_t unsuccessfulTestCases;
 
 GCTEST_CASE(test_exception_1)
 {
-    gctest_case_config(test_exception_1, 101);
-    gctest_case_description("gctest should handle first test exception without crashing");
+    gctest_case_config_priority(test_exception_1, 101);
+    gctest_case_description("testing test_exception_1");
+    gctest_case_requirement("gctest should handle first test exception without crashing");
 
     gctest_case_now
     {
-        unsuccessfulTestCase++;
+        unsuccessfulTestCases++;
 
-        throw gctest::exception::TestException("test exception");
+        throw gctest::core::exception::TestException("test exception");
     }
 };
 
 GCTEST_CASE(test_exception_2)
 {
-    gctest_case_config(test_exception_2, 102);
-    gctest_case_description("gctest should handle second test exception without crashing");
+    gctest_case_config_priority(test_exception_2, 102);
+    gctest_case_description("testing test_exception_2");
+    gctest_case_requirement("gctest should handle second test exception without crashing");
 
     gctest_case_now
     {
-        unsuccessfulTestCase++;
+        unsuccessfulTestCases++;
 
-        throw gctest::exception::TestException("test exception");
+        throw gctest::core::exception::TestException("test exception");
     }
 };
 
 GCTEST_CASE(standard_exception_1)
 {
-    gctest_case_config(standard_exception_1, 103);
-    gctest_case_description("gctest should handle first standard exception without crashing");
+    gctest_case_config_priority(standard_exception_1, 103);
+    gctest_case_description("testing standard_exception_1");
+    gctest_case_requirement("gctest should handle first standard exception without crashing");
 
     gctest_case_now
     {
-        unsuccessfulTestCase++;
+        unsuccessfulTestCases++;
 
         throw std::invalid_argument("invalid argument");
     }
@@ -46,12 +50,13 @@ GCTEST_CASE(standard_exception_1)
 
 GCTEST_CASE(standard_exception_2)
 {
-    gctest_case_config(standard_exception_2, 104);
-    gctest_case_description("gctest should handle second standard exception without crashing");
+    gctest_case_config_priority(standard_exception_2, 104);
+    gctest_case_description("testing standard_exception_2");
+    gctest_case_requirement("gctest should handle second standard exception without crashing");
 
     gctest_case_now
     {
-        unsuccessfulTestCase++;
+        unsuccessfulTestCases++;
 
         throw std::runtime_error("runtime error");
     }
@@ -59,12 +64,13 @@ GCTEST_CASE(standard_exception_2)
 
 GCTEST_CASE(generic_exception_1)
 {
-    gctest_case_config(generic_exception_1, 105);
-    gctest_case_description("gctest should handle first generic exception without crashing");
+    gctest_case_config_priority(generic_exception_1, 105);
+    gctest_case_description("testing generic_exception_1");
+    gctest_case_requirement("gctest should handle first generic exception without crashing");
 
     gctest_case_now
     {
-        unsuccessfulTestCase++;
+        unsuccessfulTestCases++;
 
         throw 1;
     }
@@ -72,12 +78,13 @@ GCTEST_CASE(generic_exception_1)
 
 GCTEST_CASE(generic_exception_2)
 {
-    gctest_case_config(generic_exception_2, 106);
-    gctest_case_description("gctest should handle second generic exception without crashing");
+    gctest_case_config_priority(generic_exception_2, 106);
+    gctest_case_description("testing generic_exception_2");
+    gctest_case_requirement("gctest should handle second generic exception without crashing");
 
     gctest_case_now
     {
-        unsuccessfulTestCase++;
+        unsuccessfulTestCases++;
 
         throw "hello world";
     }

@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.22.1)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core)
-set(GCTEST_PROJECT_VERSION 1.0.3)
+set(GCTEST_PROJECT_VERSION 1.0.4)
 set(GCTEST_PROJECT_DESCRIPTION "cpp test framework for the asm, c and cpp languages")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 
@@ -33,20 +33,22 @@ target_include_directories(${GCTEST_PROJECT_NAME}
 
 target_sources(${GCTEST_PROJECT_NAME}
     INTERFACE
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_type.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_exception.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_executor.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_main.cpp>
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/exception.cpp>
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/executor.cpp>
+        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
 
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_type.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_exception.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_executor.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/gctest_main.cpp>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/exception.cpp>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/executor.cpp>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
 )
 
 target_compile_features(${GCTEST_PROJECT_NAME}
     INTERFACE
-        #c_std_23 
+        c_std_23 
         cxx_std_23
 )
 
@@ -112,7 +114,7 @@ write_basic_package_version_file("${CMAKE_BINARY_DIR}/${GCTEST_PROJECT_NAMESPACE
     VERSION 
         "${GCTEST_PROJECT_VERSION}"
     COMPATIBILITY 
-        AnyNewerVersion
+        ExactVersion
 )
 
 configure_package_config_file("${CMAKE_SOURCE_DIR}/Config.cmake.in"
@@ -146,11 +148,16 @@ set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
 set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)
 set(CPACK_VERBATIM_VARIABLES TRUE)
 set(CPACK_STRIP_FILES TRUE)
-set(CPACK_GENERATOR "DEB")
+set(CPACK_GENERATOR "DEB;RPM")
 
 set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE all)
+
+set(CPACK_RPM_COMPONENT_INSTALL ON)
+set(CPACK_RPM_PACKAGE_AUTOREQ YES)
+set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
+set(CPACK_RPM_PACKAGE_ARCHITECTURE noarch)
 
 include(CPack)

@@ -1,1 +1,6 @@
-1. Error management : print error type not code, print core dump
+1. Error and Exception handling : print core dump, print file and line if possible
+2. Handle suit commands sigaction in main thread. Stop test suit and report if interrupt comes from user.
+3. Reorder test case priorities if multithreaded. Maybe barrier? How to success without shared lock?. Maybe shyncronized vector?
+4. Executor is not CLEAN code.
+5. Assertion messages are not CLEAN code.
+6. Think Global Suit before and after test case parameters integration. Should not override user defined.
