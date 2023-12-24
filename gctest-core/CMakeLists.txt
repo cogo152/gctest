@@ -48,7 +48,7 @@ target_sources(${GCTEST_PROJECT_NAME}
 
 target_compile_features(${GCTEST_PROJECT_NAME}
     INTERFACE
-        c_std_23 
+        #c_std_23 
         cxx_std_23
 )
 
