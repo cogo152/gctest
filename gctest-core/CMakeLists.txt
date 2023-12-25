@@ -64,7 +64,11 @@ target_compile_options(${GCTEST_PROJECT_NAME}
         -O0
         -g
         -fPIC
-        #"-x" "assembler-with-cpp"
+)
+
+target_compile_definitions(${GCTEST_PROJECT_NAME}
+    INTERFACE
+        __SOURCE_LOCATION_IMPL__ #Rhel8 does not support <source_location>
 )
 
 set_target_properties(${GCTEST_PROJECT_NAME}

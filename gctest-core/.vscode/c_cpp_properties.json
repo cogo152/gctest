@@ -1,18 +1,26 @@
 {
+  "env": {
+    "gctestIncludePath": [
+      "/usr/include",
+      "${workspaceFolder}/include/**",
+      "${workspaceFolder}/source/**"
+    ],
+    "gctestDefines": ["__SOURCE_LOCATION_IMPL__ = 1"]
+  },
   "configurations": [
     {
       "name": "Linux",
-      "includePath": ["${workspaceFolder}/**"],
-      "defines": [],
-      "intelliSenseMode": "linux-gcc-x64",
-      "browse": {
-        "path": ["${workspaceFolder}/**"],
-        "limitSymbolsToIncludedHeaders": false
-      },
       "compilerPath": "/usr/bin/gcc",
+      "intelliSenseMode": "linux-gcc-x64",
+      "configurationProvider": "ms-vscode.cmake-tools",
+      "includePath": ["${gctestIncludePath}"],
+      "browse": {
+        "path": ["${gctestIncludePath}"],
+        "limitSymbolsToIncludedHeaders": true
+      },
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
-      "configurationProvider": "ms-vscode.cmake-tools"
+      "defines": ["${gctestDefines}"]
     }
   ],
   "version": 4

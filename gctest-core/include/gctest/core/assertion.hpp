@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-#ifndef __SOURCE_LOCATION__
+#ifndef __SOURCE_LOCATION_IMPL__
 #include <source_location>
 #else
 #include <gctest/core/source_location.hpp>
