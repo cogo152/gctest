@@ -1,13 +1,13 @@
 #include <gctest/core/test.hpp>
 
-GCTEST_CASE(full_test_case_structor)
+GCTEST_CASE(full_test_case_structure)
 {
-    gctest_case_config_priority(full_test_case_structor, 0);
-    gctest_case_description("testing full_test_case_structor");
-    gctest_case_requirement("gctest should implement all test case structor");
+    gctest_case_config_priority(full_test_case_structure, 0);
+    gctest_case_description("testing full_test_case_structure");
+    gctest_case_requirement("gctest should implement all test case structure");
 
     // gctest_case_sleep_before_second(10);
-    // gctest_case_sleep_after_second(10);
+    gctest_case_sleep_after_second(10);
 
     int *ptr = nullptr;
 
