@@ -48,8 +48,12 @@ target_sources(${GCTEST_PROJECT_NAME}
 
 target_compile_features(${GCTEST_PROJECT_NAME}
     INTERFACE
-        #c_std_23 
-        cxx_std_23
+        cxx_std_20
+)
+
+target_link_libraries(${GCTEST_PROJECT_NAME}
+    INTERFACE
+        pthread
 )
 
 target_compile_options(${GCTEST_PROJECT_NAME}

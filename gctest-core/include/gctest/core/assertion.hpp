@@ -4,7 +4,12 @@
 #include <gctest/core/exception.hpp>
 
 #include <sstream>
+
+#ifndef __SOURCE_LOCATION__
 #include <source_location>
+#else
+#include <gctest/core/source_location.hpp>
+#endif
 
 namespace gctest
 {

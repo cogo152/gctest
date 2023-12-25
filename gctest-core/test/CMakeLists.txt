@@ -24,6 +24,7 @@ target_link_libraries(${test_name}
 target_compile_definitions(${test_name}
     PRIVATE
         __OWN_TEST__
+        __SOURCE_LOCATION__
 )
 
 add_test(NAME ${test_name} COMMAND ${test_name})

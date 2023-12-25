@@ -34,6 +34,11 @@ target_link_libraries(${GCTEST_PROJECT_NAME}
         gctest::core
 )
 
+target_compile_definitions(${GCTEST_PROJECT_NAME}
+    PRIVATE
+        __SOURCE_LOCATION__
+)
+
 add_test(NAME "${GCTEST_PROJECT_NAME}" COMMAND ${GCTEST_PROJECT_NAME})
 
 

@@ -6,7 +6,11 @@
 #include <gctest/core/executor.hpp>
 
 #include <string>
+#ifndef __SOURCE_LOCATION__
 #include <source_location>
+#else
+#include <gctest/core/source_location.hpp>
+#endif
 
 #define GCTEST_TRUE (1)
 #define GCTEST_FALSE (0)
