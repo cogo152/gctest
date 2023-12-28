@@ -315,7 +315,7 @@ namespace gctest
                     std::stringstream stream;
                     stream << "Assertion\t: Actual value = "
                            << "not null"
-                           << " <assert_true> "
+                           << " <assert_null> "
                            << "Expected value = "
                            << "null"
                            << "," << std::endl
@@ -334,7 +334,7 @@ namespace gctest
                     std::stringstream stream;
                     stream << "Assertion\t: Actual value = "
                            << "null"
-                           << " <assert_true> "
+                           << " <assert_not_null> "
                            << "Expected value = "
                            << "not null"
                            << "," << std::endl
