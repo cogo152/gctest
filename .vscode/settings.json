@@ -1,6 +1,0 @@
-{
-  "cmake.sourceDirectory": [
-    "${workspaceFolder}/gctest-core",
-    "${workspaceFolder}/gctest-tutorial"
-  ]
-}
