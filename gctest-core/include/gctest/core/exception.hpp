@@ -10,18 +10,41 @@ namespace gctest
     {
         namespace exception
         {
-            class TestException final : public std::exception
+            class TestCaseException final : public std::exception
             {
             private:
                 std::string __message;
 
             public:
-                TestException(std::string &&message);
-                ~TestException() = default;
+                TestCaseException(std::string &&message) : __message(std::move(message))
+                {
+                }
+                ~TestCaseException() = default;
 
-                virtual const char *what() const noexcept override;
+                const char *what() const noexcept override
+                {
+                    return __message.c_str();
+                }
+            };
+
+            class TestSuitException final : public std::exception
+            {
+            private:
+                std::string __message;
+
+            public:
+                TestSuitException(std::string &&message) : __message(std::move(message))
+                {
+                }
+                ~TestSuitException() = default;
+
+                const char *what() const noexcept override
+                {
+                    return __message.c_str();
+                }
             };
         }
+
     }
 
 }

@@ -7,7 +7,7 @@ GCTEST_CASE(full_test_case_structure)
     gctest_case_requirement("gctest should implement all test case structure");
 
     // gctest_case_sleep_before_second(10);
-    gctest_case_sleep_after_second(10);
+    // gctest_case_sleep_after_second(10);
 
     int *ptr = nullptr;
 

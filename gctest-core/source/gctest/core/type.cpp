@@ -14,6 +14,7 @@ namespace gctest
         {
             TestCase::TestCase(std::string testCaseName) : __testCaseName(testCaseName),
                                                            __testCaseResult("not completed"),
+                                                           __isTestCaseExecuted(false),
                                                            __isTestCaseFailed(false)
 
             {
@@ -57,6 +58,20 @@ namespace gctest
                 __testCaseRequirement = _set_test_case_requirement();
                 __sleepTimeBeforeTestCaseForNanoSecond = _set_sleep_time_before_test_case_for_nanosecond();
                 __sleepTimeAfterTestCaseForNanoSecond = _set_sleep_time_after_test_case_for_nanosecond();
+
+                std::stringstream testCaseReport;
+                testCaseReport << "Test Case"
+                               << std::endl
+                               << "{"
+                               << std::endl
+                               << "\tName\t\t: " << __testCaseName << "," << std::endl
+                               << "\tDescription\t: " << __testCaseDescription << "," << std::endl
+                               << "\tRequirement\t: " << __testCaseRequirement << "," << std::endl
+                               << "\tResult\t\t: " << __testCaseResult
+                               << std::endl
+                               << "}";
+
+                __testCaseReport = std::move(testCaseReport.str());
             }
 
             void TestCase::before_test_case()
@@ -76,12 +91,14 @@ namespace gctest
 
             void TestCase::set_test_case_successful()
             {
+                __isTestCaseExecuted = true;
                 __isTestCaseFailed = false;
                 __testCaseResult = "successful";
             }
 
             void TestCase::set_test_case_failed(std::string testCaseFailedDescription)
             {
+                __isTestCaseExecuted = true;
                 __isTestCaseFailed = true;
                 __testCaseResult = "failed";
                 __testCaseFailedDescription = testCaseFailedDescription;
@@ -99,32 +116,35 @@ namespace gctest
 
             void TestCase::teardown_test_case()
             {
-                std::stringstream testCaseReport;
-                testCaseReport << "Test Case"
-                               << std::endl
-                               << "{"
-                               << std::endl
-                               << "\tName\t\t: " << __testCaseName << "," << std::endl
-                               << "\tDescription\t: " << __testCaseDescription << "," << std::endl
-                               << "\tRequirement\t: " << __testCaseRequirement << "," << std::endl
-                               << "\tResult\t\t: " << __testCaseResult;
-
-                if (__isTestCaseFailed)
+                if (__isTestCaseExecuted)
                 {
+                    std::stringstream testCaseReport;
+                    testCaseReport << "Test Case"
+                                   << std::endl
+                                   << "{"
+                                   << std::endl
+                                   << "\tName\t\t: " << __testCaseName << "," << std::endl
+                                   << "\tDescription\t: " << __testCaseDescription << "," << std::endl
+                                   << "\tRequirement\t: " << __testCaseRequirement << "," << std::endl
+                                   << "\tResult\t\t: " << __testCaseResult;
+
+                    if (__isTestCaseFailed)
+                    {
+                        testCaseReport << std::endl
+                                       << "\tFailed Description"
+                                       << std::endl
+                                       << "\t{"
+                                       << std::endl
+                                       << __testCaseFailedDescription
+                                       << std::endl
+                                       << "\t}";
+                    }
+
                     testCaseReport << std::endl
-                                   << "\tFailed Description"
-                                   << std::endl
-                                   << "\t{"
-                                   << std::endl
-                                   << __testCaseFailedDescription
-                                   << std::endl
-                                   << "\t}";
+                                   << "}";
+
+                    __testCaseReport = std::move(testCaseReport.str());
                 }
-
-                testCaseReport << std::endl
-                               << "}";
-
-                __testCaseReport = testCaseReport.str();
             }
 
             void TestCase::print_test_case_report()

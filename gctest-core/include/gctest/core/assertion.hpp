@@ -32,7 +32,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -51,7 +51,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -73,7 +73,7 @@ namespace gctest
                                << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                                << "\t\tLine\t\t: " << sourceLocation.line();
 
-                        throw gctest::core::exception::TestException(stream.str());
+                        throw gctest::core::exception::TestCaseException(stream.str());
                     }
                 }
                 else if (actualValue != expectedValue)
@@ -86,7 +86,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -107,7 +107,7 @@ namespace gctest
                                << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                                << "\t\tLine\t\t: " << sourceLocation.line();
 
-                        throw gctest::core::exception::TestException(stream.str());
+                        throw gctest::core::exception::TestCaseException(stream.str());
                     }
                 }
                 else if (actualValue == expectedValue)
@@ -119,7 +119,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -135,7 +135,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -151,7 +151,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -167,7 +167,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -183,7 +183,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -213,7 +213,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -243,7 +243,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -273,7 +273,7 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
 
@@ -303,9 +303,51 @@ namespace gctest
                            << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
                            << "\t\tLine\t\t: " << sourceLocation.line();
 
-                    throw gctest::core::exception::TestException(stream.str());
+                    throw gctest::core::exception::TestCaseException(stream.str());
                 }
             }
+
+            template <typename Type>
+            void assert_null(const std::source_location &sourceLocation, Type actualValue)
+            {
+                if (actualValue != nullptr)
+                {
+                    std::stringstream stream;
+                    stream << "Assertion\t: Actual value = "
+                           << "not null"
+                           << " <assert_true> "
+                           << "Expected value = "
+                           << "null"
+                           << "," << std::endl
+                           << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
+                           << "\t\tLine\t\t: " << sourceLocation.line();
+
+                    throw gctest::core::exception::TestCaseException(stream.str());
+                }
+            }
+
+            template <typename Type>
+            void assert_not_null(const std::source_location &sourceLocation, Type actualValue)
+            {
+                if (actualValue == nullptr)
+                {
+                    std::stringstream stream;
+                    stream << "Assertion\t: Actual value = "
+                           << "null"
+                           << " <assert_true> "
+                           << "Expected value = "
+                           << "not null"
+                           << "," << std::endl
+                           << "\t\tFile\t\t: " << sourceLocation.file_name() << "," << std::endl
+                           << "\t\tLine\t\t: " << sourceLocation.line();
+
+                    throw gctest::core::exception::TestCaseException(stream.str());
+                }
+            }
+
+            void case_fail(const std::source_location &sourceLocation);
+
+            void suit_fail(const std::source_location &sourceLocation);
 
         }
 

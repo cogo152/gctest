@@ -51,6 +51,8 @@ namespace gctest
                 void __execute_test_case(const std::size_t begin, const std::size_t end);
                 void __execute_test_cases(void);
 
+                volatile bool __isSuitFailCalled;
+
                 void __print_test_suit_report();
 
             public:

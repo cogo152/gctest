@@ -4,3 +4,6 @@
 4. Executor is not CLEAN code.
 5. Assertion messages are not CLEAN code.
 6. Think Global Suit before and after test case parameters integration. Should not override user defined.
+7. find better solution for target link library pthread
+8. add negative test for equal(all primitive) + ptr
+9. handle error start stop command

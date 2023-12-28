@@ -4,19 +4,24 @@
 extern int not_main(void);
 
 std::atomic_uint32_t unsuccessfulTestCases{0};
+std::atomic_uint32_t incompleteTestCases{1};
 
 int main()
 {
     std::atomic_uint32_t returnValueFromNotMain = not_main();
 
-    if (returnValueFromNotMain != unsuccessfulTestCases)
+    if ((returnValueFromNotMain != unsuccessfulTestCases) || (incompleteTestCases != 1))
     {
-        std::cout << "TEST IS UNSUCCESSFULL. RETURN VALUE FROM NOT MAIN IS  : " << returnValueFromNotMain << "MUST BE : " << unsuccessfulTestCases << std::endl;
+        std::cout << "TEST SUIT IS\t\t==>\tUNSUCCESSFULL" << std::endl
+                  << "FAILED TEST CASES\t==>\t" << returnValueFromNotMain << " MUST BE " << unsuccessfulTestCases << std::endl
+                  << "INCOMPLETE TEST CASES\t==>\t" << incompleteTestCases << " MUST BE 1"
+                  << std::endl;
+
         return 1;
     }
     else
     {
-        std::cout << "TEST IS SUCCESSFULL" << std::endl;
+        std::cout << "TEST SUIT IS\t\t==>\tSUCCESSFULL" << std::endl;
         return 0;
     }
 }

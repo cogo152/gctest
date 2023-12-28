@@ -27,20 +27,20 @@
         gctest::core::executor::testSuitExecutor->set_test_suit_execution_multithreaded(isMultiThreaded); \
     }
 
-#define GCTEST_SUIT_ADD_START_COMMAND(commandName, commandPriority)                             \
-    void commandName(void);                                                                     \
-    void __attribute__((constructor(200 + commandPriority))) commandName##commandPriority(void) \
-    {                                                                                           \
-        gctest::core::executor::testSuitExecutor->add_test_suit_start_command(commandName);     \
-    }                                                                                           \
+#define GCTEST_SUIT_ADD_START_COMMAND(commandName, commandPriority)                               \
+    void commandName(void);                                                                       \
+    void __attribute__((constructor(10000 + commandPriority))) commandName##commandPriority(void) \
+    {                                                                                             \
+        gctest::core::executor::testSuitExecutor->add_test_suit_start_command(commandName);       \
+    }                                                                                             \
     void commandName(void)
 
-#define GCTEST_SUIT_ADD_STOP_COMMAND(commandName, commandPriority)                              \
-    void commandName(void);                                                                     \
-    void __attribute__((constructor(200 + commandPriority))) commandName##commandPriority(void) \
-    {                                                                                           \
-        gctest::core::executor::testSuitExecutor->add_test_suit_stop_command(commandName);      \
-    }                                                                                           \
+#define GCTEST_SUIT_ADD_STOP_COMMAND(commandName, commandPriority)                                \
+    void commandName(void);                                                                       \
+    void __attribute__((constructor(20000 + commandPriority))) commandName##commandPriority(void) \
+    {                                                                                             \
+        gctest::core::executor::testSuitExecutor->add_test_suit_stop_command(commandName);        \
+    }                                                                                             \
     void commandName(void)
 
 #define GCTEST_CASE(testCaseName) \
@@ -58,16 +58,16 @@
     {                                                                                             \
     }
 
-#define gctest_case_config_priority(testCaseName, testCasePriority)                                       \
-    static void __attribute__((constructor(300 + testCasePriority))) testCaseName##testCasePriority(void) \
-    {                                                                                                     \
-        gctest::core::executor::testSuitExecutor->add_test_case(new testCaseName(#testCaseName));         \
-    }                                                                                                     \
-    testCaseName(std::string testCaseName) : gctest::core::type::TestCase(testCaseName)                   \
-    {                                                                                                     \
-    }                                                                                                     \
-    ~testCaseName()                                                                                       \
-    {                                                                                                     \
+#define gctest_case_config_priority(testCaseName, testCasePriority)                                         \
+    static void __attribute__((constructor(30000 + testCasePriority))) testCaseName##testCasePriority(void) \
+    {                                                                                                       \
+        gctest::core::executor::testSuitExecutor->add_test_case(new testCaseName(#testCaseName));           \
+    }                                                                                                       \
+    testCaseName(std::string testCaseName) : gctest::core::type::TestCase(testCaseName)                     \
+    {                                                                                                       \
+    }                                                                                                       \
+    ~testCaseName()                                                                                         \
+    {                                                                                                       \
     }
 
 #define gctest_case_description(testCaseDescription)          \
@@ -177,5 +177,17 @@
 
 #define assert_member_not_throws(instance, function, ...) \
     gctest::core::assertion::assert_member_not_throws(std::source_location::current(), instance, function, ##__VA_ARGS__);
+
+#define assert_null(parameter) \
+    gctest::core::assertion::assert_null(std::source_location::current(), parameter);
+
+#define assert_not_null(parameter) \
+    gctest::core::assertion::assert_not_null(std::source_location::current(), parameter);
+
+#define case_fail \
+    gctest::core::assertion::case_fail(std::source_location::current());
+
+#define suit_fail \
+    gctest::core::assertion::suit_fail(std::source_location::current());
 
 #endif

@@ -101,18 +101,29 @@ GCTEST_CASE(success_all_assertions)
 
         assert_equal(true, true);
         assert_equal(1, 1);
+        assert_equal(1.1f, 1.1f);
+        assert_equal(1.1, 1.1);
+        assert_equal(1L, 1L);
+        assert_equal('a', 'a');
         assert_equal(std::string("ab"), std::string("ab"));
         assert_equal("ab", "ab");
+
         assert_not_equal(true, false);
         assert_not_equal(1, 0);
+        assert_not_equal(1.1f, 1.0f);
+        assert_not_equal(1.1, 1.0);
+        assert_not_equal(1L, 2L);
+        assert_not_equal('a', 'b');
         assert_not_equal(std::string("ab"), std::string("ac"));
         assert_not_equal("ab", "ac");
 
         assert_greater(2, 1);
+
         assert_greater_or_equal(2, 1);
         assert_greater_or_equal(2, 2);
 
         assert_lesser(1, 2);
+
         assert_lesser_or_equal(1, 2);
         assert_lesser_or_equal(2, 2);
 
@@ -135,6 +146,14 @@ GCTEST_CASE(success_all_assertions)
 
         assert_member_not_throws(&member, &member_or_nonmember::member_or_nonmember::not_throw_void);
         assert_member_not_throws(&member, &member_or_nonmember::member_or_nonmember::throw_or_not_argument, 2, b, c);
+
+        int *ptr = nullptr;
+        assert_null(ptr);
+        assert_null(nullptr);
+
+        ptr = new int;
+        assert_not_null(ptr);
+        delete ptr;
     }
 };
 

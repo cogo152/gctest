@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.20.0)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core)
-set(GCTEST_PROJECT_VERSION 1.0.5)
+set(GCTEST_PROJECT_VERSION 1.0.6)
 set(GCTEST_PROJECT_DESCRIPTION "cpp test framework for the asm, c and cpp languages")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 
@@ -10,6 +10,8 @@ cmake_minimum_required (VERSION ${GCTEST_CMAKE_VERSION})
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "install directory" FORCE)
 
 project (${GCTEST_PROJECT_NAME} VERSION ${GCTEST_PROJECT_VERSION} DESCRIPTION ${GCTEST_PROJECT_DESCRIPTION})
+
+find_package(Threads REQUIRED)
 
 enable_language(CXX)
 
@@ -34,13 +36,11 @@ target_include_directories(${GCTEST_PROJECT_NAME}
 target_sources(${GCTEST_PROJECT_NAME}
     INTERFACE
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/exception.cpp>
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/executor.cpp>
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
 
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/exception.cpp>
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/executor.cpp>
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
@@ -53,7 +53,7 @@ target_compile_features(${GCTEST_PROJECT_NAME}
 
 target_link_libraries(${GCTEST_PROJECT_NAME}
     INTERFACE
-        pthread
+        ${CMAKE_THREAD_LIBS_INIT}
 )
 
 target_compile_options(${GCTEST_PROJECT_NAME}

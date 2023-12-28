@@ -20,6 +20,7 @@ namespace gctest
                 std::uint64_t __sleepTimeAfterTestCaseForNanoSecond;
 
                 std::string __testCaseResult;
+                bool __isTestCaseExecuted;
                 bool __isTestCaseFailed;
                 std::string __testCaseFailedDescription;
 

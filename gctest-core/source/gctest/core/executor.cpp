@@ -32,7 +32,8 @@ namespace gctest
                                                    __testCases(),
                                                    __totalSuccessfulTestCases(0),
                                                    __totalFailedTestCases(0),
-                                                   __testCaseExecutors()
+                                                   __testCaseExecutors(),
+                                                   __isSuitFailCalled(false)
             {
                 __testSuitStartCommands.reserve(__testCasesCapacity);
                 __testSuitStopCommands.reserve(__testCasesCapacity);
@@ -96,9 +97,12 @@ namespace gctest
 
                 for (std::size_t i = begin; i < end; i++)
                 {
-                    gctest::core::type::TestCase *testCase = __testCases.at(i);
+                    if (__isSuitFailCalled)
+                    {
+                        break;
+                    }
 
-                    testCase->setup_test_case();
+                    gctest::core::type::TestCase *testCase = __testCases.at(i);
 
                     try
                     {
@@ -179,7 +183,7 @@ namespace gctest
                             throw std::runtime_error(stream.str());
                         }
                     }
-                    catch (const gctest::core::exception::TestException &e)
+                    catch (const gctest::core::exception::TestCaseException &e)
                     {
                         std::stringstream stream;
                         stream << "\t\t" << e.what();
@@ -189,6 +193,19 @@ namespace gctest
                         testCase->set_test_case_failed(message);
 
                         __totalFailedTestCases++;
+                    }
+                    catch (const gctest::core::exception::TestSuitException &e)
+                    {
+                        std::stringstream stream;
+                        stream << "\t\t" << e.what();
+
+                        std::string message = stream.str();
+
+                        testCase->set_test_case_failed(message);
+
+                        __totalFailedTestCases++;
+
+                        __isSuitFailCalled = true;
                     }
                     catch (const std::exception &e)
                     {
@@ -212,8 +229,6 @@ namespace gctest
 
                         __totalFailedTestCases++;
                     }
-
-                    testCase->teardown_test_case();
                 }
             }
 
@@ -227,8 +242,7 @@ namespace gctest
 
                 if (!__isTestSuitExecutionMultithreaded)
                 {
-                    std::thread executor(&TestSuitExecutor::__execute_test_case, this, 0, totalTestCases);
-                    __testCaseExecutors.push_back(std::move(executor));
+                    __execute_test_case(0, totalTestCases); // must be on main thread. JNI error
                 }
                 else
                 {
@@ -286,10 +300,12 @@ namespace gctest
                 }
 
                 std::cout << "TEST SUIT NAME \t\t\t: " << __testSuitName << std::endl;
-                std::cout << "TOTAL THREADS \t\t\t: " << __testCaseExecutors.size() << std::endl;
+                std::cout << "TOTAL THREADS \t\t\t: " << (__testCaseExecutors.size() == 0 ? 1 : __testCaseExecutors.size()) << std::endl;
                 std::cout << "TOTAL TEST CASES \t\t: " << __testCases.size() << std::endl;
                 std::cout << "TOTAL FAILED TEST CASES\t\t: " << __totalFailedTestCases << std::endl;
                 std::cout << "TOTAL SUCCESSFUL TEST CASES\t: " << __totalSuccessfulTestCases << std::endl;
+                std::cout << "TOTAL INCOMPLETE TEST CASES\t: " << __testCases.size() - (__totalFailedTestCases + __totalSuccessfulTestCases) << std::endl;
+                std::cout << "TEST SUIT RESULT \t\t: " << (__testCases.size() == __totalSuccessfulTestCases ? "SUCCESSFULL" : "FAILED") << std::endl;
             }
 
             void TestSuitExecutor::execute_test_suit()
@@ -300,7 +316,17 @@ namespace gctest
                     command();
                 }
 
+                for (auto &testCase : __testCases)
+                {
+                    testCase->setup_test_case();
+                }
+
                 __execute_test_cases();
+
+                for (auto &testCase : __testCases)
+                {
+                    testCase->teardown_test_case();
+                }
 
                 __print_test_suit_report();
 

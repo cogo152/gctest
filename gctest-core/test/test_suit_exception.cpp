@@ -16,7 +16,7 @@ GCTEST_CASE(test_exception_1)
     {
         unsuccessfulTestCases++;
 
-        throw gctest::core::exception::TestException("test exception");
+        throw gctest::core::exception::TestCaseException("test exception");
     }
 };
 
@@ -30,7 +30,7 @@ GCTEST_CASE(test_exception_2)
     {
         unsuccessfulTestCases++;
 
-        throw gctest::core::exception::TestException("test exception");
+        throw gctest::core::exception::TestCaseException("test exception");
     }
 };
 
