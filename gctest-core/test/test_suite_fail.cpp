@@ -1,5 +1,7 @@
 #include <gctest/core/test.hpp>
 
+#include <atomic>
+
 extern std::atomic_uint32_t unsuccessfulTestCases;
 extern std::atomic_uint32_t incompleteTestCases;
 
