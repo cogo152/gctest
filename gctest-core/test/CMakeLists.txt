@@ -82,6 +82,12 @@ target_link_libraries(${gctest_shared_library_test}
         ${gctest_shared_library}
 )
 
-add_test(NAME ${gctest_interface_library_test} COMMAND ${gctest_interface_library_test})
-add_test(NAME ${gctest_static_library_test} COMMAND ${gctest_static_library_test})
-add_test(NAME ${gctest_shared_library_test} COMMAND ${gctest_shared_library_test})
+if(ARM32 OR ARM64)
+    add_test(NAME ${gctest_interface_library_test} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${GCTEST_CROSSCOMPILING_EMULATOR_PARAMETERS} ${gctest_interface_library_test})
+    add_test(NAME ${gctest_static_library_test} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${GCTEST_CROSSCOMPILING_EMULATOR_PARAMETERS} ${gctest_static_library_test})
+    add_test(NAME ${gctest_shared_library_test} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${GCTEST_CROSSCOMPILING_EMULATOR_PARAMETERS} ${gctest_shared_library_test})
+else()
+    add_test(NAME ${gctest_interface_library_test} COMMAND ${gctest_interface_library_test})
+    add_test(NAME ${gctest_static_library_test} COMMAND ${gctest_static_library_test})
+    add_test(NAME ${gctest_shared_library_test} COMMAND ${gctest_shared_library_test})
+endif()

@@ -1,0 +1,16 @@
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_CROSSCOMPILING TRUE)
+
+set(CMAKE_C_COMPILER /usr/bin/aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER /usr/bin/aarch64-linux-gnu-g++)
+
+list(APPEND CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu)
+list(APPEND CMAKE_INSTALL_RPATH /usr/aarch64-linux-gnu/lib)
+
+set(CMAKE_CROSSCOMPILING_EMULATOR /usr/bin/qemu-aarch64 CACHE FILEPATH "Path to the emulator for the target system.")
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
