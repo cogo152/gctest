@@ -1,0 +1,5 @@
+{
+  "cmake.configureSettings": {
+    "OWN_TEST": "TRUE"
+  }
+}

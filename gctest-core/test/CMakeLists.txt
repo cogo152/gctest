@@ -1,29 +1,87 @@
+set(gctest_interface_library_test "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}-${gctest_interface_library}_test")
+set(gctest_static_library_test "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}-${gctest_static_library}_test")
+set(gctest_shared_library_test "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}-${gctest_shared_library}_test")
+
 file(GLOB_RECURSE test_sources 
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 )
 
-set(test_name "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}_test")
+set(gctest_test_include_directories
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-add_executable(${test_name})
+set(gctest_test_sources
+    ${test_sources}
+)
 
-target_include_directories(${test_name}
+# test if PRIVATE for compile options, definitions, etc..
+
+add_executable(${gctest_interface_library_test})
+
+target_include_directories(${gctest_interface_library_test}
     PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${gctest_test_include_directories}
 )
 
-target_sources(${test_name}
+target_sources(${gctest_interface_library_test}
     PRIVATE 
-        ${test_sources}
+        ${gctest_test_sources}
 )
 
-target_link_libraries(${test_name}
+target_compile_definitions(${gctest_interface_library_test}
     PRIVATE
-        ${GCTEST_PROJECT_NAME}
+        ${gctest_test_compile_definitions}
 )
 
-target_compile_definitions(${test_name}
+target_link_libraries(${gctest_interface_library_test}
     PRIVATE
-        __OWN_TEST__
+        ${gctest_interface_library}
 )
 
-add_test(NAME ${test_name} COMMAND ${test_name})
+add_executable(${gctest_static_library_test})
+
+target_include_directories(${gctest_static_library_test}
+    PRIVATE 
+        ${gctest_test_include_directories}
+)
+
+target_sources(${gctest_static_library_test}
+    PRIVATE 
+        ${gctest_test_sources}
+)
+
+target_compile_definitions(${gctest_static_library_test}
+    PRIVATE
+        ${gctest_test_compile_definitions}
+)
+
+target_link_libraries(${gctest_static_library_test}
+    PRIVATE
+        ${gctest_static_library}
+)
+
+add_executable(${gctest_shared_library_test})
+
+target_include_directories(${gctest_shared_library_test}
+    PRIVATE 
+        ${gctest_test_include_directories}
+)
+
+target_sources(${gctest_shared_library_test}
+    PRIVATE 
+        ${gctest_test_sources}
+)
+
+target_compile_definitions(${gctest_shared_library_test}
+    PRIVATE
+        ${gctest_test_compile_definitions}
+)
+
+target_link_libraries(${gctest_shared_library_test}
+    PRIVATE
+        ${gctest_shared_library}
+)
+
+add_test(NAME ${gctest_interface_library_test} COMMAND ${gctest_interface_library_test})
+add_test(NAME ${gctest_static_library_test} COMMAND ${gctest_static_library_test})
+add_test(NAME ${gctest_shared_library_test} COMMAND ${gctest_shared_library_test})

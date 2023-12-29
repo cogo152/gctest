@@ -4,8 +4,7 @@
       "/usr/include",
       "${workspaceFolder}/include/**",
       "${workspaceFolder}/source/**"
-    ],
-    "gctestDefines": ["__SOURCE_LOCATION_IMPL__ = 1"]
+    ]
   },
   "configurations": [
     {
@@ -19,8 +18,7 @@
         "limitSymbolsToIncludedHeaders": true
       },
       "cStandard": "gnu11",
-      "cppStandard": "gnu++20",
-      "defines": ["${gctestDefines}"]
+      "cppStandard": "gnu++20"
     }
   ],
   "version": 4

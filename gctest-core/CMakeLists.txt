@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.20.0)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core)
-set(GCTEST_PROJECT_VERSION 1.0.6)
+set(GCTEST_PROJECT_VERSION 1.0.7)
 set(GCTEST_PROJECT_DESCRIPTION "cpp test framework for the asm, c and cpp languages")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 
@@ -11,29 +11,64 @@ set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "install direc
 
 project (${GCTEST_PROJECT_NAME} VERSION ${GCTEST_PROJECT_VERSION} DESCRIPTION ${GCTEST_PROJECT_DESCRIPTION})
 
-find_package(Threads REQUIRED)
-
 enable_language(CXX)
 
+find_package(Threads REQUIRED)
+
+if(OWN_TEST)
+    message(STATUS "OWN TEST")
+    set(gctest_compile_definitions
+        __SOURCE_LOCATION_IMPL__ #Rhel8 does not support <source_location>
+        __OWN_TEST__
+    )
+else()
+    message(STATUS "RELEASE")
+    set(gctest_compile_definitions
+        __SOURCE_LOCATION_IMPL__ #Rhel8 does not support <source_location>
+    )
+endif()
+
+set(gctest_compile_features
+    cxx_std_20
+)
+
+set(gctest_compile_options
+    #-v 
+    -Wall
+    -Wextra
+    -O0
+    -g
+    -fPIC
+)
+
+set(gctest_link_libraries
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
+set(gctest_interface_library ${GCTEST_PROJECT_NAME}_interface)
+set(gctest_static_library ${GCTEST_PROJECT_NAME}_static)
+set(gctest_shared_library ${GCTEST_PROJECT_NAME}_shared)
+
 set(include_directory ${CMAKE_CURRENT_SOURCE_DIR}/include)
-file(GLOB_RECURSE includes 
+set(source_directory ${CMAKE_CURRENT_SOURCE_DIR}/source)
+
+file(GLOB_RECURSE public_headers 
     "${include_directory}/*.hpp"
 )
 
-set(source_directory ${CMAKE_CURRENT_SOURCE_DIR}/source)
 file(GLOB_RECURSE sources 
     "${source_directory}/*.cpp"
 )
 
-add_library(${GCTEST_PROJECT_NAME} INTERFACE)
+add_library(${gctest_interface_library} INTERFACE)
 
-target_include_directories(${GCTEST_PROJECT_NAME}
+target_include_directories(${gctest_interface_library}
     INTERFACE
         $<BUILD_INTERFACE:${include_directory}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_sources(${GCTEST_PROJECT_NAME}
+target_sources(${gctest_interface_library}
     INTERFACE
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
         $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
@@ -46,52 +81,141 @@ target_sources(${GCTEST_PROJECT_NAME}
         $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
 )
 
-target_compile_features(${GCTEST_PROJECT_NAME}
+target_compile_definitions(${gctest_interface_library}
     INTERFACE
-        cxx_std_20
+        ${gctest_compile_definitions}
 )
 
-target_link_libraries(${GCTEST_PROJECT_NAME}
+target_compile_features(${gctest_interface_library}
     INTERFACE
-        ${CMAKE_THREAD_LIBS_INIT}
+        ${gctest_compile_features}
 )
 
-target_compile_options(${GCTEST_PROJECT_NAME}
+target_compile_options(${gctest_interface_library}
     INTERFACE
-        #-v 
-        -Wall
-        -Wextra
-        -O0
-        -g
-        -fPIC
+        ${gctest_compile_options}
 )
 
-target_compile_definitions(${GCTEST_PROJECT_NAME}
-    INTERFACE
-        __SOURCE_LOCATION_IMPL__ #Rhel8 does not support <source_location>
-)
-
-set_target_properties(${GCTEST_PROJECT_NAME}
+set_target_properties(${gctest_interface_library}
     PROPERTIES 
         PUBLIC_HEADER
-            "${includes}"
+            "${public_headers}"
 )
 
-set_target_properties(${GCTEST_PROJECT_NAME}
+set_target_properties(${gctest_interface_library}
     PROPERTIES 
         OUTPUT_NAME "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}"
 )
 
-enable_testing()
+target_link_libraries(${gctest_interface_library}
+    INTERFACE
+        ${gctest_link_libraries}
+)
 
-add_subdirectory(test)
+add_library(${gctest_static_library} STATIC)
+
+target_include_directories(${gctest_static_library}
+    PRIVATE
+        ${source_directory}
+    PUBLIC
+        $<BUILD_INTERFACE:${include_directory}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+target_sources(${gctest_static_library}
+    PRIVATE
+        ${sources}
+)
+
+target_compile_definitions(${gctest_static_library}
+    PUBLIC
+        ${gctest_compile_definitions}
+)
+
+target_compile_features(${gctest_static_library}
+    PUBLIC
+        ${gctest_compile_features}
+)
+
+target_compile_options(${gctest_static_library}
+    PUBLIC
+        ${gctest_compile_options}
+)
+
+set_target_properties(${gctest_static_library}
+    PROPERTIES 
+        PUBLIC_HEADER
+            "${public_headers}"
+)
+
+set_target_properties(${gctest_static_library}
+    PROPERTIES 
+        OUTPUT_NAME "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}"
+)
+
+target_link_libraries(${gctest_static_library}
+    PUBLIC
+        ${gctest_link_libraries}
+)
+
+add_library(${gctest_shared_library} SHARED)
+
+target_include_directories(${gctest_shared_library}
+    PRIVATE
+        ${source_directory}
+    PUBLIC
+        $<BUILD_INTERFACE:${include_directory}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+target_sources(${gctest_shared_library}
+    PRIVATE
+        ${sources}
+)
+
+target_compile_definitions(${gctest_shared_library}
+    PUBLIC
+        ${gctest_compile_definitions}
+)
+
+target_compile_features(${gctest_shared_library}
+    PUBLIC
+        ${gctest_compile_features}
+)
+
+target_compile_options(${gctest_shared_library}
+    PUBLIC
+        ${gctest_compile_options}
+)
+
+set_target_properties(${gctest_shared_library}
+    PROPERTIES 
+        PUBLIC_HEADER
+            "${public_headers}"
+)
+
+set_target_properties(${gctest_shared_library}
+    PROPERTIES 
+        OUTPUT_NAME "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}"
+)
+
+target_link_libraries(${gctest_shared_library}
+    PUBLIC
+        ${gctest_link_libraries}
+)
+
+if(OWN_TEST)
+    message(STATUS "TESTING")
+    enable_testing()
+    add_subdirectory(test)
+endif()
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 install(
     TARGETS 
-        ${GCTEST_PROJECT_NAME}
+    ${gctest_interface_library} ${gctest_static_library} ${gctest_shared_library}
     EXPORT 
         "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}Targets"
     INCLUDES DESTINATION 
@@ -161,11 +285,11 @@ set(CPACK_GENERATOR "DEB;RPM")
 set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
-set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE all)
+#set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE all)
 
 set(CPACK_RPM_COMPONENT_INSTALL ON)
 set(CPACK_RPM_PACKAGE_AUTOREQ YES)
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
-set(CPACK_RPM_PACKAGE_ARCHITECTURE noarch)
+#set(CPACK_RPM_PACKAGE_ARCHITECTURE noarch)
 
 include(CPack)
