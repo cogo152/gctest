@@ -261,7 +261,7 @@ write_basic_package_version_file("${CMAKE_BINARY_DIR}/${GCTEST_PROJECT_NAMESPACE
     VERSION 
         "${GCTEST_PROJECT_VERSION}"
     COMPATIBILITY 
-        ExactVersion
+        AnyNewerVersion
 )
 
 configure_package_config_file("${CMAKE_SOURCE_DIR}/Config.cmake.in"
