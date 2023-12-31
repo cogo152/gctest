@@ -1,7 +1,7 @@
 set(GCTEST_CMAKE_VERSION 3.20.0)
 set(GCTEST_PROJECT_NAMESPACE gctest)
 set(GCTEST_PROJECT_NAME core)
-set(GCTEST_PROJECT_VERSION 1.1.0)
+set(GCTEST_PROJECT_VERSION 1.1.1)
 set(GCTEST_PROJECT_DESCRIPTION "cpp test framework for the asm, c and cpp languages")
 set(GCTEST_PROJECT_CONTACT "Gökay Cömert gokay.comert@icloud.com")
 
@@ -25,7 +25,7 @@ endif()
 project (${GCTEST_PROJECT_NAME} VERSION ${GCTEST_PROJECT_VERSION} DESCRIPTION ${GCTEST_PROJECT_DESCRIPTION})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
-set(CMAKE_VERBOSE_MAKEFILE FALSE)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 enable_language(CXX)
 
 find_package(Threads REQUIRED)
@@ -39,7 +39,7 @@ if(OWN_TEST)
 else()
     message(STATUS "RELEASE")
     set(gctest_compile_definitions
-        __SOURCE_LOCATION_IMPL__ #Rhel8 does not support <source_location>
+        __SOURCE_LOCATION_IMPL__ # Rhel8 does not support <source_location>
     )
 endif()
 
@@ -47,8 +47,7 @@ set(gctest_compile_features
     cxx_std_20
 )
 
-set(gctest_compile_options
-    #-v 
+set(gctest_compile_options # Not only for this project but also for other projects
     -Wall
     -Wextra
     -O0

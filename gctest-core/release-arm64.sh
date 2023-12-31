@@ -9,6 +9,5 @@ cmake   --no-warn-unused-cli                        \
         -G "Unix Makefiles"                         \
 
 cmake   --build build                               \
-        --config Debug                              \
         --target all install package                \
         -j 14 --                                    \
