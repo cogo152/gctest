@@ -1,2 +1,5 @@
-build/
+build-arm32/
+build-arm64/
+build-local/
 package/
+library/

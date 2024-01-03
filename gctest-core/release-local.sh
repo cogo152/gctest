@@ -1,12 +1,14 @@
 #!/bin/bash
 
-rm -rf build
+BUILD_DIR=build-local
+
+rm -rf $BUILD_DIR
 
 cmake   --no-warn-unused-cli                        \
         -S.                                         \
-        -B build                                    \
+        -B $BUILD_DIR                               \
         -G "Unix Makefiles"                         \
 
-cmake   --build build                               \
+cmake   --build $BUILD_DIR                          \
         --target all install package                \
         -j 14 --                                    \
