@@ -8,3 +8,5 @@
 8. handle error start stop command Maybe and ErroHandler class. Also use it in executor for clean code.
 9. Improve scripts. check fails
 10. new gctest-core-test folder for int test
+11. add c options and std if needed. Maybe in test folder user can use c and assembly codes.
+12. Think newlib or nano support for exceptions and stdlib
