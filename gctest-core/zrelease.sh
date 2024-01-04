@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf build
+
 rm -rf package
 
 ./release-arm32.sh

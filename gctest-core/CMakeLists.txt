@@ -82,18 +82,19 @@ target_include_directories(${gctest_interface_library}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_sources(${gctest_interface_library}
-    INTERFACE
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/executor.cpp>
-        $<BUILD_INTERFACE:${source_directory}/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
-
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/type.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/assertion.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/executor.cpp>
-        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/main.cpp>
-)
+foreach(source_path IN LISTS sources)
+    string(LENGTH "${source_path}" source_path_length)
+    string(FIND "${source_path}" "/source" source_folder_location)
+    math(EXPR source_begin "${source_folder_location} + 8" OUTPUT_FORMAT DECIMAL)
+    math(EXPR source_length "${source_path_length} - ${source_begin}" OUTPUT_FORMAT DECIMAL)
+    string(SUBSTRING ${source_path} ${source_begin} ${source_length} source)
+        
+    target_sources(${gctest_interface_library}
+        INTERFACE
+        $<BUILD_INTERFACE:${source_directory}/${source}>
+        $<INSTALL_INTERFACE:source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}/${source}>
+    )
+endforeach()
 
 target_compile_definitions(${gctest_interface_library}
     INTERFACE
@@ -229,7 +230,7 @@ include(CMakePackageConfigHelpers)
 
 install(
     TARGETS 
-    ${gctest_interface_library} ${gctest_static_library} ${gctest_shared_library}
+        ${gctest_interface_library} ${gctest_static_library} ${gctest_shared_library}
     EXPORT 
         "${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}Targets"
     INCLUDES DESTINATION 
@@ -256,14 +257,16 @@ install(
         source/${GCTEST_PROJECT_NAMESPACE}/${GCTEST_PROJECT_NAME}
 )
 
-write_basic_package_version_file("${CMAKE_BINARY_DIR}/${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}ConfigVersion.cmake"
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}ConfigVersion.cmake"
     VERSION 
         "${GCTEST_PROJECT_VERSION}"
     COMPATIBILITY 
         AnyNewerVersion
 )
 
-configure_package_config_file("${CMAKE_SOURCE_DIR}/Config.cmake.in"
+configure_package_config_file(
+    "${CMAKE_SOURCE_DIR}/Config.cmake.in"
     "${CMAKE_BINARY_DIR}/${GCTEST_PROJECT_NAMESPACE}-${GCTEST_PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION 
         cmake
